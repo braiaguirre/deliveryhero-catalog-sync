@@ -8,6 +8,7 @@ const VITE_DELIVERY_HERO_TOKEN = import.meta.env.VITE_DELIVERY_HERO_TOKEN
 
 function App() {
     const [ data, setData ] = useState({})
+
     const readUploadFile = (e) => {
         e.preventDefault()
         if (e.target.files) {
@@ -24,37 +25,10 @@ function App() {
         }
     }
 
-    
-
     const handleUpdate = () => {
-        
-        axios.defaults.headers.common = {
-            'Authorization': `Bearer ${VITE_DELIVERY_HERO_TOKEN}`
-        }
-        
-        axios.put(VITE_DELIVERY_HERO_API_URL, {
-            "products": [
-                {
-                "sku": "7791293040516",
-                "active": false,
-                "price": 980,
-                "maximum_sales_quantity": 10
-                }
-            ]
-        })
-        
-        
-        // (async() => { 
-            
-        //     const response = await axios.put(VITE_DELIVERY_HERO_API_URL, example, {
-        //     headers: {
-        //         "Cache-Control": "no-cache",
-        //         "Content-Type": "application/x-www-form-urlencoded",
-        //     }
-        //     })
-        //     console.log(response)
-        // })
-        
+        axios.post('http://localhost:3001/update', { 
+            products: [ ...data ]
+         })
     }
 
     const example = {
@@ -83,7 +57,7 @@ function App() {
             <button onClick={ handleUpdate }>Update</button>
             <h2>Products</h2>
             <ul>
-                { data.length && data.map((product) => <li key={ product.SKU }>{ `${ product.NOMBRE } - $ ${ product.PRECIO }` }</li>)}
+                { data.length && data.map((product) => <li key={ product.sku }>{ `${ product.nombre } - $ ${ product.price }` }</li>)}
             </ul>
         </>
     )
