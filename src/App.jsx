@@ -2,9 +2,6 @@ import * as xlsx from 'xlsx'
 import './App.css'
 import { useState } from 'react'
 import axios from 'axios'
-const VITE_DELIVERY_HERO_API_URL = import.meta.env.VITE_DELIVERY_HERO_API_URL
-const VITE_DELIVERY_HERO_TOKEN = import.meta.env.VITE_DELIVERY_HERO_TOKEN
-
 
 function App() {
     const [ data, setData ] = useState({})
@@ -29,17 +26,6 @@ function App() {
         axios.put('http://localhost:3001/update', { 
             products: [ ...data ]
          })
-    }
-
-    const example = {
-        "products": [
-            {
-            "sku": "7791293040516",
-            "active": false,
-            "price": 980,
-            "maximum_sales_quantity": 10
-            }
-        ]
     }
 
     return (
