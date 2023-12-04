@@ -26,7 +26,7 @@ function App() {
     }
 
     const handleUpdate = () => {
-        axios.post('http://localhost:3001/update', { 
+        axios.put('http://localhost:3001/update', { 
             products: [ ...data ]
          })
     }
