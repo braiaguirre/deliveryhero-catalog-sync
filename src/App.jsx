@@ -1,10 +1,13 @@
-import * as xlsx from 'xlsx'
-import './App.css'
-import { useState } from 'react'
-import axios from 'axios'
+import * as xlsx from 'xlsx';
+import './App.css';
+import { useState } from 'react';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { setData } from './redux/reducers/dataReducer';
 
 function App() {
-    const [ data, setData ] = useState({})
+    const dispatch = useDispatch();
+    const data = useSelector(state => state.data.data)
 
     const readUploadFile = (e) => {
         e.preventDefault()
@@ -16,7 +19,7 @@ function App() {
                 const sheetName = workbook.SheetNames[0]
                 const worksheet = workbook.Sheets[sheetName]
                 const json = xlsx.utils.sheet_to_json(worksheet)
-                setData(json)
+                dispatch(setData(json));
             }
             reader.readAsArrayBuffer(e.target.files[0])
         }
@@ -43,7 +46,7 @@ function App() {
             <button onClick={ handleUpdate }>Update</button>
             <h2>Products</h2>
             <ul>
-                { data.length && data.map((product) => <li key={ product.sku }>{ `${ product.nombre } - $ ${ product.price }` }</li>)}
+                { data.length && data.map((product) => <li key={ product.sku }>{ `${ product.nombre } - $ ${ product.price } (${ product.active === 1 ? product.maximum_sales_quantity + ' un' : 'Sin stock' })` }</li>)}
             </ul>
         </>
     )
