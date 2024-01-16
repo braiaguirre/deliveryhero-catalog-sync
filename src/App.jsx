@@ -1,16 +1,15 @@
-import * as xlsx from 'xlsx';
 import './App.css';
-import { useState } from 'react';
-import axios from 'axios';
+import * as xlsx from 'xlsx';
 import { useSelector, useDispatch } from 'react-redux';
-import { setData } from './redux/reducers/dataReducer';
+import { setData, sendData } from './redux/reducers/dataReducer';
 
 function App() {
     const dispatch = useDispatch();
-    const data = useSelector(state => state.data.data)
+    const data = useSelector(state => state.data.data);
 
-    const readUploadFile = (e) => {
-        e.preventDefault()
+    const handleUpdate = () => dispatch(sendData(data));
+    const handleFileRead = (e) => {
+        e.preventDefault();
         if (e.target.files) {
             const reader = new FileReader()
             reader.onload = (e) => {
@@ -25,12 +24,6 @@ function App() {
         }
     }
 
-    const handleUpdate = () => {
-        axios.put('http://localhost:3001/update', { 
-            products: [ ...data ]
-         })
-    }
-
     return (
         <>
             <h1>Delivery Hero Catalog Update</h1>
@@ -40,7 +33,7 @@ function App() {
                     type="file"
                     name="upload"
                     id="upload"
-                    onChange={readUploadFile}
+                    onChange={handleFileRead}
                 />
             </form>
             <button onClick={ handleUpdate }>Update</button>
