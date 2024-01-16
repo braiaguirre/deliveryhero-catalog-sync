@@ -4,10 +4,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const URL = 'http://localhost:3001';
 
 export const sendData = createAsyncThunk( 'data/put', async ( updateData, { rejectWithValue } ) => {
-    console.log(updateData);
     try {
         const response = await axios.put(URL + `/update`, updateData);
-        return response?.data;
+        return response.data;
     } catch (err) {
         return rejectWithValue(err.response.data);
     }
@@ -16,12 +15,16 @@ export const sendData = createAsyncThunk( 'data/put', async ( updateData, { reje
 const dataSlice = createSlice({
     name: 'reducer',
     initialState: {
-        data: [],
+        products: [],
+        id: 0,
         error: ''
     },
     reducers: {
         setData: (state, action) => {
-            state.data = action.payload;
+            state.products = action.payload;
+        },
+        setId: (state, action) => {
+            state.id = action.payload;
         },
         clearDataError: (state, action) => {
             state.error = '';
@@ -30,10 +33,13 @@ const dataSlice = createSlice({
     extraReducers( builder ) {
         builder
             .addCase(sendData.fulfilled, (state, action) => {
-                console.log(data);
+                alert(action.payload)
+            })
+            .addCase(sendData.rejected, (state, action) => {
+                alert(action.payload)
             })
     }
 });
 
-export const { setData } = dataSlice.actions;
+export const { setData, setId } = dataSlice.actions;
 export default dataSlice.reducer;

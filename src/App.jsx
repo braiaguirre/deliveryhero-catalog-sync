@@ -1,13 +1,15 @@
 import './App.css';
 import * as xlsx from 'xlsx';
 import { useSelector, useDispatch } from 'react-redux';
-import { setData, sendData } from './redux/reducers/dataReducer';
+import { setData, setId, sendData } from './redux/reducers/dataReducer';
 
 function App() {
     const dispatch = useDispatch();
-    const data = useSelector(state => state.data.data);
+    const data = useSelector(state => state.data.products);
+    const id = useSelector(state => state.data.id);
 
-    const handleUpdate = () => dispatch(sendData(data));
+    const handleUpdate = () => dispatch(sendData({ id, data }));
+    const handleIdSelect = (e) => dispatch(setId(e.target.value));
     const handleFileRead = (e) => {
         e.preventDefault();
         if (e.target.files) {
@@ -27,6 +29,11 @@ function App() {
     return (
         <>
             <h1>Delivery Hero Catalog Update</h1>
+            <select onChange={ handleIdSelect }>
+                <option value={ 0 }>Select</option>
+                <option value={ 256100 }>Meli Perfumería</option>
+                <option value={ 271082 }>Huellitas Pet Shop</option>
+            </select>
             <form>
                 <label htmlFor="upload">Upload File</label>
                 <input
@@ -39,7 +46,7 @@ function App() {
             <button onClick={ handleUpdate }>Update</button>
             <h2>Products</h2>
             <ul>
-                { data.length && data.map((product) => <li key={ product.sku }>{ `${ product.nombre } - $ ${ product.price } (${ product.active === 1 ? product.maximum_sales_quantity + ' un' : 'Sin stock' })` }</li>)}
+                { data.length ? data.map((product) => <li key={ product.sku }>{ `${ product.sku } | ${ product.nombre } - $ ${ product.price } (${ product.active === 1 ? product.maximum_sales_quantity + ' un' : 'Sin stock' })` }</li>) : null }
             </ul>
         </>
     )
