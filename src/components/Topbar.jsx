@@ -16,6 +16,9 @@ const Topbar = () => {
 
     const handleUpdate = () => dispatch(sendData({ id, data }));
     const handleIdSelect = (e) => dispatch(setId(e.target.value));
+    const handleReset = () => {
+        dispatch(setId(0));
+    }
     const handleFileRead = (e) => {
         e.preventDefault();
         if (e.target.files) {
@@ -38,32 +41,30 @@ const Topbar = () => {
                 <h3>Delivery Hero Catalog Update</h3>
             </div>            
             <div className={ styles.navbarRight }>
-                <form>
-                    <label htmlFor="upload">Upload File</label>
-                    <input
-                        type="file"
-                        name="upload"
-                        id="upload"
-                        onChange={handleFileRead}
-                    />
-                </form>
-                <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Vendor</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Vendor"
+                <input
+                    type="file"
+                    name="upload"
+                    id="upload"
+                    onChange={handleFileRead}
+                />
+
+                <Select
+                    sx={{ ml: 2, height: 41, width: 200, }} 
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
                     value={ id }
                     onChange={ handleIdSelect }
                     >
-                    <MenuItem value={ 0 }>Select</MenuItem>
-                    <MenuItem value={ 256100 }>Meli Perfumería</MenuItem>
-                    <MenuItem value={ 271082 }>Huellitas</MenuItem>
-                    </Select>
-                </FormControl>
-                </Box>
-                <Button variant="contained" onClick={ handleUpdate }>Update</Button>
+                    <MenuItem sx={{ width: 200 }} value={ 0 }>Select vendor</MenuItem>
+                    <MenuItem sx={{ width: 200 }} value={ 256100 }>Meli Perfumería</MenuItem>
+                    <MenuItem sx={{ width: 200 }} value={ 271082 }>Huellitas</MenuItem>
+                </Select>
+
+                <Button sx={{ ml: 2, height: 40, color: '#000000', borderColor: '#000000' }} 
+                    variant="outlined" onClick={ handleReset }>Reset</Button>
+
+                <Button sx={{ ml: 2, height: 40, backgroundColor: '#000000', boxShadow: 0  }} 
+                    variant="contained" onClick={ handleUpdate }>Update</Button>
             </div>
         </div>
     )
