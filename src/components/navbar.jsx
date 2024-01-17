@@ -1,4 +1,10 @@
 import styles from './navbar.module.css';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import * as xlsx from 'xlsx';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData, setId, sendData } from '../redux/reducers/dataReducer';
@@ -35,7 +41,7 @@ const Navbar = () => {
                 <select onChange={ handleIdSelect }>
                     <option value={ 0 }>Select</option>
                     <option value={ 256100 }>Meli Perfumería</option>
-                    <option value={ 271082 }>Huellitas Pet Shop</option>
+                    <option value={ 271082 }>Huellitas</option>
                 </select>
                 <form>
                     <label htmlFor="upload">Upload File</label>
@@ -46,7 +52,23 @@ const Navbar = () => {
                         onChange={handleFileRead}
                     />
                 </form>
-                <button onClick={ handleUpdate }>Update</button>
+                <Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Vendor</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Vendor"
+                    value={ id }
+                    onChange={handleFileRead}
+                    >
+                    <MenuItem value={ 0 }>Select</MenuItem>
+                    <MenuItem value={ 256100 }>Meli Perfumería</MenuItem>
+                    <MenuItem value={ 271082 }>Huellitas</MenuItem>
+                    </Select>
+                </FormControl>
+                </Box>
+                <Button variant="contained" onClick={ handleUpdate }>Update</Button>
             </div>
         </div>
     )
