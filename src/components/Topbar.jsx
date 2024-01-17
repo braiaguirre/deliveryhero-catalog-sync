@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import * as xlsx from 'xlsx';
 import { useSelector, useDispatch } from 'react-redux';
-import { setData, setId, sendData } from '../redux/reducers/dataReducer';
+import { setData, setId, clearId, sendData, clearData } from '../redux/reducers/dataReducer';
 
 const Topbar = () => {
     const dispatch = useDispatch();
@@ -17,7 +17,8 @@ const Topbar = () => {
     const handleUpdate = () => dispatch(sendData({ id, data }));
     const handleIdSelect = (e) => dispatch(setId(e.target.value));
     const handleReset = () => {
-        dispatch(setId(0));
+        dispatch(clearId());
+        dispatch(clearData());
     }
     const handleFileRead = (e) => {
         e.preventDefault();
@@ -41,30 +42,30 @@ const Topbar = () => {
                 <h3>Delivery Hero Catalog Update</h3>
             </div>            
             <div className={ styles.navbarRight }>
-                <input
-                    type="file"
-                    name="upload"
-                    id="upload"
-                    onChange={handleFileRead}
-                />
+
+                <input accept=".xls, .xlsx" style={{ display: 'none' }} id="raised-button-file" type="file" onChange={handleFileRead} />
+                <label htmlFor="raised-button-file">
+                    <Button variant="raised" component="span" sx={{ pr: 0, pl: 0, '&:hover': { backgroundColor: '#ffffff' } }}>Upload File</Button>
+                </label> 
 
                 <Select
-                    sx={{ ml: 2, height: 41, width: 200, }} 
+                    sx={{ ml: 2, height: 41, width: 200, transition: 500, '&:active': { borderColor: '#000000' }, '&:hover': { borderColor: '#000000', borderColor: '#000000', boxShadow: 2 } }} 
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
                     value={ id }
                     onChange={ handleIdSelect }
-                    >
-                    <MenuItem sx={{ width: 200 }} value={ 0 }>Select vendor</MenuItem>
-                    <MenuItem sx={{ width: 200 }} value={ 256100 }>Meli Perfumería</MenuItem>
-                    <MenuItem sx={{ width: 200 }} value={ 271082 }>Huellitas</MenuItem>
+                >
+                    <MenuItem sx={{  }} value={ 0 }>Select vendor</MenuItem>
+                    <MenuItem sx={{  }} value={ 256100 }>Meli Perfumería</MenuItem>
+                    <MenuItem sx={{  }} value={ 271082 }>Huellitas</MenuItem>
                 </Select>
 
-                <Button sx={{ ml: 2, height: 40, color: '#000000', borderColor: '#000000' }} 
+                <Button sx={{ ml: 2, height: 40, color: '#000000', borderColor: '#000000', '&:hover': { backgroundColor: '#ffffff', borderColor: '#000000', boxShadow: 2 } }} 
                     variant="outlined" onClick={ handleReset }>Reset</Button>
 
-                <Button sx={{ ml: 2, height: 40, backgroundColor: '#000000', boxShadow: 0  }} 
+                <Button sx={{ ml: 2, height: 40, backgroundColor: '#000000', boxShadow: 0, '&:hover': { backgroundColor: '#000000', borderColor: '#000000', boxShadow: 3 } }} 
                     variant="contained" onClick={ handleUpdate }>Update</Button>
+
             </div>
         </div>
     )
