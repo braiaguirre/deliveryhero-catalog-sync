@@ -5,10 +5,20 @@ const URL = 'http://localhost:3001';
 
 export const sendData = createAsyncThunk( 'data/put', async ( updateData, { rejectWithValue } ) => {
     try {
-        const response = await axios.put(URL + `/update`, updateData);
+        const response = await axios.put(URL + `/products/`, updateData);
         return response.data;
     } catch (err) {
         return rejectWithValue(err.response.data);
+    }
+});
+
+export const fetchData = createAsyncThunk( 'data/get', async () => {
+    try {
+        console.log('asdasdasdasdasd')
+        const response = await axios.get(URL + `/products/`);
+        return response.data;
+    } catch (err) {
+        // return rejectWithValue(err.response.data);
     }
 });
 
@@ -34,15 +44,18 @@ const dataSlice = createSlice({
         },
         clearDataError: (state, action) => {
             state.error = '';
-        }
+        },
     },
     extraReducers( builder ) {
         builder
             .addCase(sendData.fulfilled, (state, action) => {
-                alert(action.payload)
+                alert(action.payload);
             })
             .addCase(sendData.rejected, (state, action) => {
-                alert(action.payload)
+                alert(action.payload);
+            })
+            .addCase(fetchData.fulfilled, (state, action) => {
+                state.products = action.payload;
             })
     }
 });
