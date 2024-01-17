@@ -1,4 +1,4 @@
-import styles from './navbar.module.css';
+import styles from './Topbar.module.css';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,7 +9,7 @@ import * as xlsx from 'xlsx';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData, setId, sendData } from '../redux/reducers/dataReducer';
 
-const Navbar = () => {
+const Topbar = () => {
     const dispatch = useDispatch();
     const data = useSelector(state => state.data.products);
     const id = useSelector(state => state.data.id);
@@ -38,11 +38,6 @@ const Navbar = () => {
                 <h3>Delivery Hero Catalog Update</h3>
             </div>            
             <div className={ styles.navbarRight }>
-                <select onChange={ handleIdSelect }>
-                    <option value={ 0 }>Select</option>
-                    <option value={ 256100 }>Meli Perfumería</option>
-                    <option value={ 271082 }>Huellitas</option>
-                </select>
                 <form>
                     <label htmlFor="upload">Upload File</label>
                     <input
@@ -60,7 +55,7 @@ const Navbar = () => {
                     id="demo-simple-select"
                     label="Vendor"
                     value={ id }
-                    onChange={handleFileRead}
+                    onChange={ handleIdSelect }
                     >
                     <MenuItem value={ 0 }>Select</MenuItem>
                     <MenuItem value={ 256100 }>Meli Perfumería</MenuItem>
@@ -74,4 +69,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default Topbar
