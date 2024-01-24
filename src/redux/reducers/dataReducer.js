@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const URL = 'http://localhost:3001';
 
-export const sendData = createAsyncThunk( 'data/put', async ( updateData, { rejectWithValue } ) => {
+export const sendData = createAsyncThunk( 'data/put', async (updateData, { rejectWithValue }) => {
     try {
         const response = await axios.put(URL + `/products/`, updateData);
         return response.data;
@@ -12,10 +12,9 @@ export const sendData = createAsyncThunk( 'data/put', async ( updateData, { reje
     }
 });
 
-export const fetchData = createAsyncThunk( 'data/get', async () => {
+export const fetchData = createAsyncThunk( 'data/get', async (id, { rejectWithValue }) => {
     try {
-        console.log('asdasdasdasdasd')
-        const response = await axios.get(URL + `/products/`);
+        const response = await axios.get(URL + `/products/${ id }`);
         return response.data;
     } catch (err) {
         // return rejectWithValue(err.response.data);

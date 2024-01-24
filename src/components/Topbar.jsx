@@ -31,7 +31,7 @@ const Topbar = () => {
     const handleUpdateDialogOpen = () => setUpdateDialog(true);
     const handleUpdateDialogClose = () => setUpdateDialog(false);
     const handleFetch = () => {
-        dispatch(fetchData());
+        dispatch(fetchData(id));
         setFetchDialog(false);
     }
     const handleReset = () => {
