@@ -6,22 +6,22 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const UpdatePopup = ( { handleUpdateDialogClose, handleUpdate, open, id }) => {;
+const FetchDialog = ( { handleFetchDialogClose, handleFetch, open }) => {;
 
     return (
         <Dialog open={ open } aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-            <DialogTitle id="alert-dialog-title">{ "Confirm Catalog Update" }</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{ "Confirm" }</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Catalog update will be sent to this vendor: { id }
+                    Confirm fetching data from Dux Software.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={ handleUpdateDialogClose }>Cancel</Button>
-                <Button onClick={ handleUpdate } autoFocus>Update</Button>
+                <Button onClick={ handleFetchDialogClose }>Cancel</Button>
+                <Button onClick={ handleFetch } autoFocus>Fetch Data</Button>
             </DialogActions>
         </Dialog>
     )
 }
 
-export default UpdatePopup;
+export default FetchDialog;

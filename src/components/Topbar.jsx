@@ -10,6 +10,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Select from '@mui/material/Select';
+import UpdatePopup from './popups/UpdatePopup';
+import FetchPopup from './popups/FetchPopup';
 import * as xlsx from 'xlsx';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -24,20 +26,41 @@ const Topbar = () => {
     const data = useSelector(state => state.data.products);
     const id = useSelector(state => state.data.id);
 
-    const handleUpdate = () => dispatch(sendData({ id, data }));
-    const handleIdSelect = (e) => dispatch(setId(e.target.value));
-    const handleFetchDialogOpen = () => setFetchDialog(true);
-    const handleFetchDialogClose = () => setFetchDialog(false);
-    const handleUpdateDialogOpen = () => setUpdateDialog(true);
-    const handleUpdateDialogClose = () => setUpdateDialog(false);
+    const handleUpdateDialogOpen = () => {
+        setUpdateDialog(true);
+    }
+    
+    const handleUpdateDialogClose = () => {
+        setUpdateDialog(false);
+    }
+
+    const handleUpdate = () => {
+        dispatch(sendData({ id, data }));
+        setUpdateDialog(false);
+    }
+    
+    const handleFetchDialogOpen = () => {
+        setFetchDialog(true);
+    }
+
+    const handleFetchDialogClose = () => {
+        setFetchDialog(false);
+    }
+
     const handleFetch = () => {
         dispatch(fetchData(id));
         setFetchDialog(false);
     }
+    
+    const handleIdSelect = (e) => {
+        dispatch(setId(e.target.value));
+    }
+    
     const handleReset = () => {
         dispatch(clearId());
         dispatch(clearData());
     }
+    
     const handleFileRead = (e) => {
         e.preventDefault();
         if (e.target.files) {
@@ -64,19 +87,6 @@ const Topbar = () => {
                 <Button sx={{ '&:hover': { backgroundColor: '#ffffff' } }} 
                     variant="raised" onClick={ handleFetchDialogOpen }>Fetch Data (Beta)</Button>
 
-                <Dialog open={ fetchDialog } aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-                    <DialogTitle id="alert-dialog-title">{ "Confirm" }</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            Confirm fetching data from Dux Software.
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={ handleFetchDialogClose }>Cancel</Button>
-                        <Button onClick={ handleFetch } autoFocus>Fetch Data</Button>
-                    </DialogActions>
-                </Dialog>
-
                 <input accept=".xls, .xlsx" style={{ display: 'none' }} id="raised-button-file" type="file" onChange={handleFileRead} />
                 <label htmlFor="raised-button-file">
                     <Button variant="raised" component="span" sx={{ '&:hover': { backgroundColor: '#ffffff' } }}>Upload File</Button>
@@ -100,22 +110,22 @@ const Topbar = () => {
                 <Button sx={{ ml: 2, height: 40, backgroundColor: '#000000', boxShadow: 0, '&:hover': { backgroundColor: '#000000', borderColor: '#000000', boxShadow: 3 } }} 
                     variant="contained" onClick={ handleUpdateDialogOpen }>Update</Button>
 
-                <Dialog open={ updateDialog } aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-                    <DialogTitle id="alert-dialog-title">{ "Confirm Catalog Update" }</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            Catalog update will be sent to this vendor: { id }
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={ handleUpdateDialogClose }>Cancel</Button>
-                        <Button onClick={ handleUpdate } autoFocus>Update</Button>
-                    </DialogActions>
-                </Dialog>
+                <UpdatePopup 
+                    handleUpdateDialogClose={ handleUpdateDialogClose } 
+                    handleUpdate= { handleUpdate }
+                    open={ updateDialog } 
+                    id={ id }
+                />
+
+                <FetchPopup 
+                    handleFetchDialogClose={ handleFetchDialogClose } 
+                    handleFetch= { handleFetch }
+                    open={ fetchDialog } 
+                />
 
             </div>
         </div>
     )
 }
 
-export default Topbar
+export default Topbar;
