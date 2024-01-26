@@ -25,6 +25,7 @@ const dataSlice = createSlice({
     name: 'reducer',
     initialState: {
         products: [],
+        date: '',
         id: 0,
         error: ''
     },
@@ -34,6 +35,13 @@ const dataSlice = createSlice({
         },
         clearData: (state, action) => {
             state.products = [];
+        },
+        setDate: (state, action) => {
+            console.log(action.payload);
+            state.date = action.payload;
+        },
+        clearDate: (state, action) => {
+            state.date = '';
         },
         setId: (state, action) => {
             state.id = action.payload;
@@ -59,5 +67,5 @@ const dataSlice = createSlice({
     }
 });
 
-export const { setData, clearData, setId, clearId } = dataSlice.actions;
+export const { setData, clearData, setDate, clearDate, setId, clearId } = dataSlice.actions;
 export default dataSlice.reducer;

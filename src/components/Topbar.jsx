@@ -1,21 +1,13 @@
 import styles from './Topbar.module.css';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import Select from '@mui/material/Select';
 import UpdatePopup from './popups/UpdatePopup';
 import FetchPopup from './popups/FetchPopup';
 import * as xlsx from 'xlsx';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setData, setId, clearId, sendData, clearData, fetchData } from '../redux/reducers/dataReducer';
+import { setData, setDate, clearDate, setId, clearId, sendData, clearData, fetchData } from '../redux/reducers/dataReducer';
 
 const Topbar = () => {
     const dispatch = useDispatch();
@@ -59,19 +51,22 @@ const Topbar = () => {
     const handleReset = () => {
         dispatch(clearId());
         dispatch(clearData());
+        dispatch(clearDate());
     }
     
     const handleFileRead = (e) => {
         e.preventDefault();
         if (e.target.files) {
-            const reader = new FileReader()
+            const reader = new FileReader();
             reader.onload = (e) => {
-                const data = e.target.result
-                const workbook = xlsx.read(data, { type: "array" })
-                const sheetName = workbook.SheetNames[0]
-                const worksheet = workbook.Sheets[sheetName]
-                const json = xlsx.utils.sheet_to_json(worksheet)
+                const data = e.target.result;
+                const workbook = xlsx.read(data, { type: "array" });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const json = xlsx.utils.sheet_to_json(worksheet);
+                const date = String(workbook.Props.ModifiedDate);
                 dispatch(setData(json));
+                dispatch(setDate(date));
             }
             reader.readAsArrayBuffer(e.target.files[0])
         }

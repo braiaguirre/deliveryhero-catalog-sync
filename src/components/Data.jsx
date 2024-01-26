@@ -9,23 +9,20 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
-
 const Data = () => {
     const data = useSelector(state => state.data.products);
+    const date = useSelector(state => state.data.date);
 
     return (
         <div className={ styles.container }>
+            <div className={ styles.fileInfo }>
+                { date ?
+                    <ul>
+                        <li><b>Date: </b> { date }</li>
+                        <li><b>Rows: </b> { data.length }</li>
+                    </ul> 
+                : <b>No file selected.</b> }
+            </div>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }}>
                     <TableHead>
